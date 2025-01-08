@@ -1,16 +1,20 @@
 "use client";
 import { MoreHorizontal } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
 import { Dialog } from "@/components/ui/dialog";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import { Button } from "@/components/ui/button";
 import { Row } from "@tanstack/react-table";
-import { ReagentData } from "./dummy_data";
-import { useReagentsModal } from "@/utils/store/modals";
+import { StudentData } from "./dummy_data";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { useStudentsModal, useReagentsModal, useEquipmentModal } from "@/utils/store/modals";
 
-export default function AdminTableRowActions({ row }: { row: Row<ReagentData> }) {
-  const { open } = useReagentsModal();
+export default function StudentTableRowActions({ row }: { row: Row<StudentData> }) {
   const reference = row.original;
+  const { open } = useStudentsModal();
+  const { open: openEquipment } = useEquipmentModal();
+  const { open: openReagent } = useReagentsModal();
 
   return (
     <Dialog>
@@ -27,7 +31,7 @@ export default function AdminTableRowActions({ row }: { row: Row<ReagentData> })
             <p>
               <Icon icon={"hugeicons:view"} />
             </p>
-            <button onClick={() => open(reference)}>View reagent details</button>
+            <button onClick={() => open(reference)}>View student details</button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

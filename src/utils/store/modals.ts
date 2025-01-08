@@ -1,5 +1,6 @@
 import { LabEquipmentData } from "@/app/(dashboard)/equipment/_components/dummy_data";
 import { ReagentData } from "@/app/(dashboard)/reagents/_components/dummy_data";
+import { StudentData } from "@/app/(dashboard)/students/_components/dummy_data";
 import { create } from "zustand";
 
 type ModalProps<T> = {
@@ -25,3 +26,4 @@ const createModalStore = <T>() =>
 
 export const useEquipmentModal = createModalStore<LabEquipmentData>();
 export const useReagentsModal = createModalStore<ReagentData>();
+export const useStudentsModal = createModalStore<StudentData>();
