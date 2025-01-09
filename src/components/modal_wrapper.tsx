@@ -34,7 +34,7 @@ const ModalWrapper = ({ children, close, loading }: ModalProps) => {
             opacity: 0,
             y: 10,
           }}
-          className="absolute z-50 max-h-[95dvh] w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-4 pb-5 shadow-md sm:p-6"
+          className="absolute z-[999] max-h-[95dvh] w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-4 pb-5 shadow-md sm:p-6"
         >
           {close && (
             <button className="btn btn-icon absolute -right-4 -top-4" onClick={close} disabled={loading}>

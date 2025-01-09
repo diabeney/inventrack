@@ -7,7 +7,7 @@ import Beaker from "@/app/assets/images/equipment.jpeg";
 export default function EquipmentPage() {
   return (
     <div className="w-full ">
-      <div className=" group mb-6 overflow-hidden relative w-full h-[20rem] rounded-lg">
+      <div className=" group hidden md:block mb-6 overflow-hidden relative w-full h-[20rem] rounded-lg">
         <div className="absolute h-full w-full inset-0">
           <Image
             src={Beaker}

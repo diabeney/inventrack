@@ -11,20 +11,21 @@ import {
   SortingState,
   getSortedRowModel,
 } from "@tanstack/react-table";
-
+import { toast } from "sonner";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import TopButtons from "../../equipment/_components/top_buttons";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-
+import { exportToCSV } from "@/utils/export_csv";
 import { Button } from "@/components/ui/button";
-
+import { StudentData } from "./dummy_data";
+import { format } from "date-fns";
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  columns: ColumnDef<StudentData, TValue>[];
+  data: StudentData[];
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<StudentData, TValue>({ columns, data }: DataTableProps<StudentData, TValue>) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
@@ -41,10 +42,29 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
       columnFilters,
     },
   });
+  const handleExport = () => {
+    if (!data || data.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+
+    const values = data.map((item) => {
+      return {
+        NAME: item.leaderName,
+        "INDEX NUMBER": item.indexNumber,
+        "NUMBER OF COLLEAGUES": item.numberOfColleagues,
+        SUPERVISOR: item.supervisor,
+        "PROJECT TITLE": item.projectTitle,
+        "CREATED AT": format(new Date(item._createdAt), "dd/MM/yyyy"),
+      };
+    });
+
+    exportToCSV(values, "STUDENTS_INVENTRACK");
+  };
 
   return (
     <div className=" w-full">
-      <div className="flex justify-between gap-4 pt-4">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 pt-4">
         <Input
           placeholder="Search name..."
           value={(table.getColumn("leaderName")?.getFilterValue() as string) ?? ""}
@@ -53,7 +73,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           }}
           className="max-w-sm"
         />
-        <TopButtons />
+        <TopButtons exportHandler={handleExport} />
       </div>
       <div className="rounded-md border bg-white dark:border-neutral-600 dark:bg-zinc-800">
         <Table className="">

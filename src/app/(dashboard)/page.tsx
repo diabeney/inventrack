@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { OverviewCurve } from "./_components/overview_curve";
+import LabOverviewChart from "./_components/overview_curve";
 import Welcome from "@/app/assets/images/auth-img.jpeg";
 import AnalyticsCards from "./_components/analytics_cards";
 import AnalyticsGraph from "./_components/analytics_graphs";
@@ -20,14 +20,11 @@ export default function Home() {
           <div className="absolute left-0 top-0 h-full w-full rounded-xl bg-gradient-to-tr from-black/90 via-black/70 to-black/10" />
           <Image src={Welcome} alt={"Welcome image"} className={"h-full w-full rounded-xl object-cover"} width={3000} />
         </div>
-        <OverviewCurve />
+        <LabOverviewChart />
       </div>
       <div className={"my-6"}>
         <AnalyticsCards />
       </div>
-      {/* <section className="my-8">
-        <OverviewAreaChart />
-      </section> */}
       <div className="">
         <AnalyticsGraph />
       </div>

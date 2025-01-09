@@ -7,68 +7,60 @@ import { PieSectorDataItem } from "recharts/types/polar/Pie";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartStyle, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-const desktopData = [
-  { month: "january", desktop: 186, fill: "var(--color-january)" },
-  { month: "february", desktop: 305, fill: "var(--color-february)" },
-  { month: "march", desktop: 237, fill: "var(--color-march)" },
-  { month: "april", desktop: 173, fill: "var(--color-april)" },
-  { month: "may", desktop: 209, fill: "var(--color-may)" },
+
+const inventoryData = [
+  { category: "Chemicals", quantity: 186, fill: "var(--color-chemicals)" },
+  { category: "Glassware", quantity: 305, fill: "var(--color-glassware)" },
+  { category: "Instruments", quantity: 237, fill: "var(--color-instruments)" },
+  { category: "Equipment", quantity: 173, fill: "var(--color-equipment)" },
+  { category: "Miscellaneous", quantity: 209, fill: "var(--color-miscellaneous)" },
 ];
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  desktop: {
-    label: "Desktop",
-  },
-  mobile: {
-    label: "Mobile",
-  },
-  january: {
-    label: "January",
+  chemicals: {
+    label: "Chemicals",
     color: "hsl(var(--chart-1))",
   },
-  february: {
-    label: "February",
+  glassware: {
+    label: "Glassware",
     color: "hsl(var(--chart-2))",
   },
-  march: {
-    label: "March",
+  instruments: {
+    label: "Instruments",
     color: "hsl(var(--chart-3))",
   },
-  april: {
-    label: "April",
+  equipment: {
+    label: "Equipment",
     color: "hsl(var(--chart-4))",
   },
-  may: {
-    label: "May",
+  miscellaneous: {
+    label: "Miscellaneous",
     color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
 export function OverviewPieChart() {
   const id = "pie-interactive";
-  const [activeMonth, setActiveMonth] = React.useState(desktopData[0].month);
+  const [activeCategory, setActiveCategory] = React.useState(inventoryData[0].category);
 
-  const activeIndex = React.useMemo(() => desktopData.findIndex((item) => item.month === activeMonth), [activeMonth]);
-  const months = React.useMemo(() => desktopData.map((item) => item.month), []);
+  const activeIndex = React.useMemo(() => inventoryData.findIndex((item) => item.category === activeCategory), [activeCategory]);
+  const categories = React.useMemo(() => inventoryData.map((item) => item.category), []);
 
   return (
     <Card data-chart={id} className="flex flex-col">
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex-row items-start space-y-0 pb-0">
         <div className="grid gap-1">
-          <CardTitle>Pie Chart - Interactive</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+          <CardTitle>Lab Inventory Overview</CardTitle>
+          <CardDescription>Breakdown of inventory categories</CardDescription>
         </div>
-        <Select value={activeMonth} onValueChange={setActiveMonth}>
-          <SelectTrigger className="ml-auto h-7 w-[130px] rounded-lg pl-2.5" aria-label="Select a value">
-            <SelectValue placeholder="Select month" />
+        <Select value={activeCategory} onValueChange={setActiveCategory}>
+          <SelectTrigger className="ml-auto h-7 w-[130px] rounded-lg pl-2.5" aria-label="Select a category">
+            <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent align="end" className="rounded-xl">
-            {months.map((key) => {
-              const config = chartConfig[key as keyof typeof chartConfig];
+            {categories.map((key) => {
+              const config = chartConfig[key.toLowerCase() as keyof typeof chartConfig];
 
               if (!config) {
                 return null;
@@ -80,7 +72,7 @@ export function OverviewPieChart() {
                     <span
                       className="flex h-3 w-3 shrink-0 rounded-sm"
                       style={{
-                        backgroundColor: `var(--color-${key})`,
+                        backgroundColor: `var(--color-${key.toLowerCase()})`,
                       }}
                     />
                     {config?.label}
@@ -96,9 +88,9 @@ export function OverviewPieChart() {
           <PieChart>
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <Pie
-              data={desktopData}
-              dataKey="desktop"
-              nameKey="month"
+              data={inventoryData}
+              dataKey="quantity"
+              nameKey="category"
               innerRadius={60}
               strokeWidth={5}
               activeIndex={activeIndex}
@@ -115,10 +107,10 @@ export function OverviewPieChart() {
                     return (
                       <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
                         <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
-                          {desktopData[activeIndex].desktop.toLocaleString()}
+                          {inventoryData[activeIndex].quantity.toLocaleString()}
                         </tspan>
                         <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
-                          Visitors
+                          Items
                         </tspan>
                       </text>
                     );

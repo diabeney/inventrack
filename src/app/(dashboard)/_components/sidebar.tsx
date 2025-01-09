@@ -2,26 +2,19 @@
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { usePathname, useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { menuLinks } from "./mobile_sidebar";
 import MobileSidebar from "./mobile_sidebar";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import Logo from "@/app/assets/images/inventrack_logo.png";
 import Image from "next/image";
-// import useClickOutside from "../hooks/use_click_outside";
 import { AnimatePresence } from "framer-motion";
-
-// import { Spinner } from "./spinner";
 
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const menuRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  //   useClickOutside([menuRef], () => {
-  //     setIsMenuOpen(false);
-  //   });
   const isActive = (href: string) => {
     if (pathname !== "/" && href === "/") {
       return false;
@@ -30,7 +23,7 @@ const Sidebar = () => {
   };
 
   return (
-    <>
+    <div>
       <div>
         <AnimatePresence>
           {isSidebarOpen && (
@@ -44,12 +37,12 @@ const Sidebar = () => {
         </AnimatePresence>
         <nav
           className={
-            "sticky top-0 z-50 flex max-w-full items-center justify-between border-b lg:hidden bg-white p-4 py-[1rem] lg:ml-[18rem] lg:justify-between lg:pr-16 xl:pr-24"
+            "sticky w-screen top-0 z-[90] flex max-w-full items-center justify-between border-b lg:hidden bg-white p-4 py-[1rem] lg:ml-[18rem] lg:justify-between lg:pr-16 xl:pr-24"
           }
         >
           <div className=" flex w-full items-center justify-between">
-            <div>
-              <Image src={Logo} alt="logo" />
+            <div onClick={() => router.push("/")}>
+              <Image src={Logo} alt="logo" width={130} height={130} />
             </div>
             <button
               className={"btn btn-icon bg-gray-300 flex items-center justify-center rounded-lg size-10 lg:hidden"}
@@ -94,7 +87,7 @@ const Sidebar = () => {
           <UserButton />
         </SignedIn>
       </aside>
-    </>
+    </div>
   );
 };
 

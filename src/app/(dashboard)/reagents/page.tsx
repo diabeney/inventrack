@@ -7,7 +7,7 @@ import Beaker from "@/app/assets/images/reagent.jpeg";
 export default function EquipmentPage() {
   return (
     <div className="w-full">
-      <div className=" group mb-6 overflow-hidden relative w-full h-[20rem] rounded-lg">
+      <div className=" group hidden md:block mb-6 overflow-hidden relative w-full h-[20rem] rounded-lg">
         <div className="absolute h-full w-full inset-0">
           <Image
             src={Beaker}
@@ -24,7 +24,7 @@ export default function EquipmentPage() {
           <p>Manage the available reagents in the lab.</p>
         </div>
       </div>
-      <h3 className="text-4xl font-semibold mb-6">Lab Reagents</h3>
+      <h3 className="text-4xl font-semibold mb-6 md:hidden">Lab Reagents</h3>
       <AnalyticsCards />
       <section className=" mt-6">
         <DataTable columns={columns} data={reagentDummyData} />
